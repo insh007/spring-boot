@@ -1,0 +1,16 @@
+dev
+~~~
+logging.level.org.springframework=trace
+
+prod
+~~~
+logging.level.org.springframework=info
+
+~~some other are : ~~
+trace
+debug
+info  
+warning 
+error
+
+off
