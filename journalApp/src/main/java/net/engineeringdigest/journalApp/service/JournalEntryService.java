@@ -32,16 +32,8 @@ public class JournalEntryService {
         journalEntryRepository.deleteById(id);
     }
 
-    public JournalEntry updateById(ObjectId id, JournalEntry newEntry){
-        JournalEntry old = journalEntryRepository.findById(id).orElse(null);
-
-        if(Objects.nonNull(old)){
-            old.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().isEmpty() ? newEntry.getTitle() : old.getTitle());
-            old.setContent(newEntry.getContent() != null && !newEntry.getContent().isEmpty() ? newEntry.getContent() : old.getContent());
-        }
-
-        journalEntryRepository.save(old);
-        return old;
+    public void updateById(JournalEntry entry){
+        journalEntryRepository.save(entry);
     }
 }
 
