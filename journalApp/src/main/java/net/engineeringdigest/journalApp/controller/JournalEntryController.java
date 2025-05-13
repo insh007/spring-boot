@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -27,16 +28,17 @@ public class JournalEntryController {
     public ResponseEntity<?> getAllJournalEntriesOfUsers(@PathVariable String userName){
         User user = userService.findByUserName(userName);
 
-        List<JournalEntry> journalEntryList = user.getJournalEntries();
+        if(user != null && !CollectionUtils.isEmpty(user.getJournalEntries())) {
+            List<JournalEntry> journalEntryList = user.getJournalEntries();
 
-        if(journalEntryList != null && !journalEntryList.isEmpty()){
             return new ResponseEntity<>(journalEntryList, HttpStatus.OK);
+
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/{userName")
+    @PostMapping("/{userName}")
     public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry entry, @PathVariable String userName){
         journalEntryService.saveEntry(entry, userName);
         return new ResponseEntity<>(entry, HttpStatus.CREATED);
